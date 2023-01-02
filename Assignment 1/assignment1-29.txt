@@ -1,0 +1,4 @@
+select Pokemon.name
+from Pokemon
+where not id in (select distinct Pokemon.id
+from Pokemon Inner join CatchedPokemon as cp on Pokemon.id = cp.pid order by Pokemon.id ASC) order by Pokemon.name ASC;

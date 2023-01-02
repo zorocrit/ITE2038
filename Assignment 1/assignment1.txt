@@ -1,0 +1,136 @@
+--1 Database: MySQL v5.6
+select name
+from Pokemon
+where type = "Grass" order by name ASC;
+--2
+select name
+from Trainer
+where hometown = "Brown City" or hometown = "Rainbow City" order by name ASC;
+--3
+select distinct type
+from Pokemon order by type ASC;
+--4
+select distinct hometown
+from Trainer
+where hometown like 'B%' order by hometown ASC;
+--5
+select hometown
+from Trainer
+where name not like ('M%') order by hometown ASC;
+--6
+select nickname
+from CatchedPokemon
+where level = (select MAX(level) from CatchedPokemon) order by nickname ASC;
+--7
+select name
+from Pokemon
+where name like 'A%' or name like 'E%' or name like 'I%' or name like 'O%' or name like 'U%' order by name ASC;
+--8
+select AVG(level) as 'Average Level'
+from CatchedPokemon;
+--9
+select MAX(level)
+from CatchedPokemon, Trainer
+where Trainer.id = CatchedPokemon.owner_id and Trainer.name = 'Yellow';
+--10
+select distinct hometown
+from Trainer order by hometown ASC;
+--11
+select name, nickname
+from Trainer join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where CatchedPokemon.nickname like 'A%' order by Trainer.name ASC;
+--12
+select distinct Trainer.name
+from Trainer, City join Gym on City.name = Gym.city
+where Trainer.id = (select leader_id
+from City join Gym on City.name = Gym.city
+where description = ('Amazon'));
+--13
+select Trainer.id, count(CatchedPokemon.owner_id)
+from CatchedPokemon left join Pokemon on CatchedPokemon.pid = Pokemon.id left join Trainer on CatchedPokemon.owner_id = Trainer.id
+where Pokemon.type = 'Fire'
+Group by Trainer.id;
+--14, MySQL v5.6
+select distinct type
+from Pokemon
+where Pokemon.id < 10
+order by id DESC;
+--15
+select count(id) as 'count'
+from Pokemon
+where type not like 'Fire';
+--16
+select Pokemon.name
+from Evolution left join Pokemon on Pokemon.id = Evolution.before_id
+where id > after_id order by name ASC;
+--17
+select AVG(CatchedPokemon.level) as 'avgLevel'
+from CatchedPokemon left join Pokemon on Pokemon.id = CatchedPokemon.pid
+where type like 'Water';
+--18
+select nickname
+from Gym left join Trainer on Gym.leader_id = Trainer.id left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where level = (select Max(level) from Gym left join Trainer on Gym.leader_id = Trainer.id left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id);
+--19
+select name
+from Trainer left join CatchedPokemon on Trainer.id = CatchedPokemon.owner_id
+where Trainer.hometown = 'Blue City' group by name having avg(level) order by avg(level) DESC Limit 1;
+--20
+select distinct Pokemon.name
+from Trainer left join CatchedPokemon on Trainer.id = CatchedPokemon.owner_id left join Pokemon on CatchedPokemon.pid = Pokemon.id left join Evolution on Pokemon.id = Evolution.before_id
+where after_id is not Null and Pokemon.type = 'Electric' and Trainer.id in (select distinct Trainer.id
+from Trainer
+where Trainer.hometown in (select hometown
+from Trainer 
+group by hometown having count(*) = 1));
+--21
+select Trainer.name, sum(level) as sumLevel
+from Gym left join Trainer on Gym.leader_id = Trainer.id left join CatchedPokemon on CatchedPokemon.owner_id = Gym.leader_id
+group by Trainer.name order by sum(level) DESC;
+--22
+select hometown
+from Trainer
+Group by Trainer.hometown order by count(hometown) DESC Limit 1;
+--23
+select distinct Pokemon.name
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id left join Pokemon on Pokemon.id = CatchedPokemon.pid
+where Trainer.hometown = "Sangnok City" and CatchedPokemon.pid in (select CatchedPokemon.pid
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where Trainer.hometown = "Brown City") order by Pokemon.name;
+--24
+select Trainer.name
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id left join Pokemon on Pokemon.id = CatchedPokemon.pid
+where Trainer.hometown = 'Sangnok City' and Pokemon.name like 'P%' order by Trainer.name ASC;
+--25
+select Trainer.name as TrainerName, Pokemon.name as PokemonName
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id left join Pokemon on Pokemon.id = CatchedPokemon.pid
+order by Trainer.name ASC, Pokemon.name ASC;
+--26
+select Pokemon.name
+from Pokemon left join Evolution on Pokemon.id = Evolution.before_id left join Evolution as ev on Pokemon.id = ev.after_id left join Pokemon as PK on PK.id = Evolution.after_id left join Evolution as eve on PK.id = eve.before_id
+where ev.before_id is NULL and not Evolution.before_id is NULL and eve.before_id is NULL
+order by Pokemon.name ASC;
+--27
+select CatchedPokemon.nickname
+from CatchedPokemon Inner join Pokemon as pk on CatchedPokemon.pid = pk.id Inner Join Trainer as tr on CatchedPokemon.owner_id = tr.id Inner Join Gym on tr.hometown = Gym.city
+where tr.id = (select leader_id from Gym where city = "Sangnok City") and pk.type = "water" order by CatchedPokemon.nickname ASC;
+--28
+select tr.name as name
+from CatchedPokemon as cp inner join Pokemon as pk on cp.pid = pk.id inner join Evolution as ev1 on pk.id = ev1.after_id left join Trainer as tr on tr.id = cp.owner_id
+group by tr.id having count(cp.nickname) >= 3
+order by tr.name ASC;
+--29
+select Pokemon.name
+from Pokemon
+where not id in (select distinct Pokemon.id
+from Pokemon Inner join CatchedPokemon as cp on Pokemon.id = cp.pid order by Pokemon.id ASC) order by Pokemon.name ASC;
+--30
+select max(level) as maxLevel
+from Trainer as tr inner join CatchedPokemon as cp on cp.owner_id = tr.id
+group by tr.hometown
+order by max(level) desc;
+--31
+select Evolution.before_id as id, Fir_Pokemon.name as firstName, Mid_Pokemon.name as secondName, La_Pokemon.name as thirdName
+from Pokemon AS Mid_Pokemon inner join Evolution on Mid_Pokemon.id = Evolution.after_id left join Evolution as evo on Mid_Pokemon.id = evo.before_id Inner Join Pokemon As Fir_Pokemon on Evolution.before_id = Fir_Pokemon.id Inner Join Pokemon as La_Pokemon on La_Pokemon.id = evo.after_id
+where not Evolution.before_id is NULL and Mid_Pokemon.id in 
+(select Evolution.before_id from Evolution);

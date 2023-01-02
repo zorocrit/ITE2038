@@ -1,0 +1,3 @@
+select hometown
+from Trainer
+where name not like ('M%') order by hometown ASC;

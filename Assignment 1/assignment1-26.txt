@@ -1,0 +1,4 @@
+select Pokemon.name
+from Pokemon left join Evolution on Pokemon.id = Evolution.before_id left join Evolution as ev on Pokemon.id = ev.after_id left join Pokemon as PK on PK.id = Evolution.after_id left join Evolution as eve on PK.id = eve.before_id
+where ev.before_id is NULL and not Evolution.before_id is NULL and eve.before_id is NULL
+order by Pokemon.name ASC;

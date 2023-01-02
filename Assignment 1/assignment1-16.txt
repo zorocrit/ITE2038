@@ -1,0 +1,3 @@
+select Pokemon.name
+from Evolution left join Pokemon on Pokemon.id = Evolution.before_id
+where id > after_id order by name ASC;

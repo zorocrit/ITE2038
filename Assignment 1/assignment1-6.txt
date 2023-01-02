@@ -1,0 +1,3 @@
+select nickname
+from CatchedPokemon
+where level = (select MAX(level) from CatchedPokemon) order by nickname ASC;

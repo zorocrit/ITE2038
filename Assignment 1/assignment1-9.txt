@@ -1,0 +1,3 @@
+select max(level)
+from CatchedPokemon, Trainer
+where Trainer.id = CatchedPokemon.owner_id and Trainer.name = 'Yellow';

@@ -1,0 +1,2 @@
+select distinct hometown
+from Trainer order by hometown ASC;

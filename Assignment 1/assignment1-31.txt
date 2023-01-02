@@ -1,0 +1,4 @@
+select Evolution.before_id as id, Fir_Pokemon.name, Mid_Pokemon.name, La_Pokemon.name
+from Pokemon AS Mid_Pokemon inner join Evolution on Mid_Pokemon.id = Evolution.after_id left join Evolution as evo on Mid_Pokemon.id = evo.before_id Inner Join Pokemon As Fir_Pokemon on Evolution.before_id = Fir_Pokemon.id Inner Join Pokemon as La_Pokemon on La_Pokemon.id = evo.after_id
+where not Evolution.before_id is NULL and Mid_Pokemon.id in 
+(select Evolution.before_id from Evolution);

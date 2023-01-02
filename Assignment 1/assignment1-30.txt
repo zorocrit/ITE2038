@@ -1,0 +1,4 @@
+select max(level)
+from Trainer as tr inner join CatchedPokemon as cp on cp.owner_id = tr.id
+group by tr.hometown
+order by max(level) desc;

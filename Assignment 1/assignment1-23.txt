@@ -1,0 +1,5 @@
+select distinct Pokemon.name
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id left join Pokemon on Pokemon.id = CatchedPokemon.pid
+where Trainer.hometown = "Sangnok City" and CatchedPokemon.pid in (select CatchedPokemon.pid
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where Trainer.hometown = "Brown City") order by Pokemon.name;

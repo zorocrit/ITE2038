@@ -1,0 +1,4 @@
+select distinct type
+from Pokemon
+where Pokemon.id < 10
+order by id DESC;

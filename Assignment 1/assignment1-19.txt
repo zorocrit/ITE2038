@@ -1,0 +1,3 @@
+select name
+from Trainer left join CatchedPokemon on Trainer.id = CatchedPokemon.owner_id
+where Trainer.hometown = 'Blue City' group by name having avg(level) order by avg(level) DESC Limit 1;

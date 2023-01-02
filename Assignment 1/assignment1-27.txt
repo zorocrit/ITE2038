@@ -1,0 +1,3 @@
+select CatchedPokemon.nickname
+from CatchedPokemon Inner join Pokemon as pk on CatchedPokemon.pid = pk.id Inner Join Trainer as tr on CatchedPokemon.owner_id = tr.id Inner Join Gym on tr.hometown = Gym.city
+where tr.id = (select leader_id from Gym where city = "Sangnok City") and pk.type = "water" order by CatchedPokemon.nickname ASC;

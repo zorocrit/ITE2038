@@ -1,0 +1,4 @@
+select Trainer.id, count(CatchedPokemon.owner_id)
+from CatchedPokemon left join Pokemon on CatchedPokemon.pid = Pokemon.id left join Trainer on CatchedPokemon.owner_id = Trainer.id
+where Pokemon.type = 'Fire'
+Group by Trainer.id;

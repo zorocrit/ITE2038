@@ -1,0 +1,3 @@
+select name, nickname
+from Trainer join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where CatchedPokemon.nickname like 'A%' order by Trainer.name ASC;

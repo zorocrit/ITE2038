@@ -1,0 +1,3 @@
+select hometown
+from Trainer
+Group by Trainer.hometown order by count(hometown) DESC Limit 1;

@@ -1,0 +1,4 @@
+select tr.name as name
+from CatchedPokemon as cp inner join Pokemon as pk on cp.pid = pk.id inner join Evolution as ev1 on pk.id = ev1.after_id left join Trainer as tr on tr.id = cp.owner_id
+group by tr.id having count(cp.nickname) >= 3
+order by tr.name ASC;

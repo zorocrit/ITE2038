@@ -1,0 +1,5 @@
+select distinct Trainer.name
+from Trainer, City join Gym on City.name = Gym.city
+where Trainer.id = (select leader_id
+                    from City join Gym on City.name = Gym.city
+                    where description = ('Amazon'));

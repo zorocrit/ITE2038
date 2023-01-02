@@ -1,0 +1,7 @@
+select distinct Pokemon.name
+from Trainer left join CatchedPokemon on Trainer.id = CatchedPokemon.owner_id left join Pokemon on CatchedPokemon.pid = Pokemon.id left join Evolution on Pokemon.id = Evolution.before_id
+where after_id is not Null and Pokemon.type = 'Electric' and Trainer.id in (select distinct Trainer.id
+from Trainer
+where Trainer.hometown in (select hometown
+from Trainer 
+group by hometown having count(*) = 1));

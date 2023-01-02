@@ -1,0 +1,3 @@
+select Trainer.name
+from Trainer left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id left join Pokemon on Pokemon.id = CatchedPokemon.pid
+where Trainer.hometown = 'Sangnok City' and Pokemon.name like 'P%' order by Trainer.name ASC;

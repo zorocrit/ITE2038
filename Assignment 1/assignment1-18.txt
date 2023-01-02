@@ -1,0 +1,3 @@
+select nickname
+from Gym left join Trainer on Gym.leader_id = Trainer.id left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id
+where level = (select Max(level) from Gym left join Trainer on Gym.leader_id = Trainer.id left join CatchedPokemon on CatchedPokemon.owner_id = Trainer.id);
